@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-primary: #1C1917;
+    --color-secondary: #57534E;
+    --color-muted: #A8A29E;
+    --color-border: #E7E5E4;
+    --color-surface: #FAFAF9;
+    --color-background: #FFFFFF;
+    --color-accent: #7C3AED;
+    --color-accent-light: #EDE9FE;
+    --color-gold: #B8860B;
+  }
+
+  .dark {
+    --color-primary: #FAFAF9;
+    --color-secondary: #A8A29E;
+    --color-muted: #78716C;
+    --color-border: #44403C;
+    --color-surface: #292524;
+    --color-background: #1C1917;
+    --color-accent: #7C3AED;
+    --color-accent-light: #3B2A7A;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-stone-900 font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  .dark body {
+    @apply bg-stone-900 text-stone-50;
+  }
+
+  ::selection {
+    @apply bg-violet-100 text-violet-900;
+  }
+
+  .dark ::selection {
+    @apply bg-violet-900/30 text-violet-100;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-stone-200 rounded-full;
+  }
+
+  .dark ::-webkit-scrollbar-thumb {
+    @apply bg-stone-700;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-stone-300;
+  }
+
+  .dark ::-webkit-scrollbar-thumb:hover {
+    @apply bg-stone-600;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-6 py-3 font-medium rounded-button transition-all duration-200;
+  }
+
+  .btn-primary {
+    @apply bg-violet-600 text-white hover:bg-violet-700 hover:shadow-glow active:scale-[0.98];
+  }
+
+  .btn-secondary {
+    @apply bg-white text-violet-600 border border-violet-200 hover:border-violet-300 hover:bg-violet-50 active:scale-[0.98];
+  }
+
+  .dark .btn-secondary {
+    @apply bg-stone-800 border-stone-700 text-violet-400 hover:bg-stone-700;
+  }
+
+  .btn-ghost {
+    @apply text-stone-600 hover:text-stone-900 hover:bg-stone-100;
+  }
+
+  .dark .btn-ghost {
+    @apply text-stone-400 hover:text-stone-100 hover:bg-stone-800;
+  }
+
+  .card {
+    @apply bg-white rounded-card p-6 shadow-soft transition-all duration-300;
+  }
+
+  .dark .card {
+    @apply bg-stone-800 border border-stone-700;
+  }
+
+  .card-hover {
+    @apply hover:-translate-y-1 hover:shadow-lifted;
+  }
+
+  .input {
+    @apply w-full px-4 py-3 rounded-input border border-stone-200 bg-white text-stone-900 placeholder:text-stone-400 transition-all duration-200;
+    @apply focus:outline-none focus:ring-2 focus:ring-violet-500/20 focus:border-violet-400;
+  }
+
+  .dark .input {
+    @apply bg-stone-800 border-stone-700 text-stone-100 placeholder:text-stone-500;
+  }
+
+  .section-heading {
+    @apply text-4xl md:text-5xl font-semibold tracking-tight text-stone-900;
+  }
+
+  .dark .section-heading {
+    @apply text-stone-50;
+  }
+
+  .section-subheading {
+    @apply text-lg text-stone-500 max-w-2xl;
+  }
+
+  .dark .section-subheading {
+    @apply text-stone-400;
+  }
+
+  .gradient-text {
+    @apply bg-gradient-to-r from-violet-600 to-violet-800 bg-clip-text text-transparent;
+  }
+
+  .glass {
+    @apply bg-white/80 backdrop-blur-xl;
+  }
+
+  .dark .glass {
+    @apply bg-stone-900/80;
+  }
+
+  .skeleton {
+    @apply bg-gradient-to-r from-stone-100 via-stone-200 to-stone-100 bg-[length:200%_100%] animate-shimmer rounded;
+  }
+
+  .dark .skeleton {
+    @apply bg-gradient-to-r from-stone-800 via-stone-700 to-stone-800;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .animate-in {
+    animation: fadeUp 0.5s ease-out forwards;
+  }
+
+  .stagger-1 { animation-delay: 50ms; }
+  .stagger-2 { animation-delay: 100ms; }
+  .stagger-3 { animation-delay: 150ms; }
+  .stagger-4 { animation-delay: 200ms; }
+  .stagger-5 { animation-delay: 250ms; }
+
+  .dark .bg-surface { background-color: var(--color-surface); }
+  .dark .bg-background { background-color: var(--color-background); }
+  .dark .text-primary { color: var(--color-primary); }
+  .dark .text-secondary { color: var(--color-secondary); }
+  .dark .border-default { border-color: var(--color-border); }
+}
