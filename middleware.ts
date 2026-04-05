@@ -6,6 +6,9 @@ export function middleware(request: NextRequest) {
 
   const isLoggedIn = request.cookies.get("auth_token");
   const userRole = request.cookies.get("user_role");
+  
+  // Demo mode bypass (remove in production)
+  const isDemoAdmin = request.nextUrl.searchParams.get("demo") === "admin";
 
   const publicRoutes = ["/", "/login", "/register", "/about", "/programs", "/media", "/testimonials", "/contact", "/admissions"];
   const studentRoutes = ["/dashboard"];
@@ -16,6 +19,11 @@ export function middleware(request: NextRequest) {
   const isAdminRoute = adminRoutes.some(route => pathname.startsWith(route));
 
   if (isPublicRoute) {
+    return NextResponse.next();
+  }
+
+  // Demo admin access
+  if (isAdminRoute && isDemoAdmin) {
     return NextResponse.next();
   }
 
