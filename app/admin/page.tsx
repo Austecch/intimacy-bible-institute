@@ -38,11 +38,13 @@ function AnimatedSection({ children, className, delay = 0 }: { children: React.R
 }
 
 const recentActivity = [
-  { type: "enrollment", user: "Emily Watson", action: "enrolled in", item: "Foundations of Intimacy", time: "5 min ago" },
-  { type: "completion", user: "Michael Okonkwo", action: "completed", item: "Kingdom Economics", time: "1 hour ago" },
-  { type: "enrollment", user: "David Kim", action: "enrolled in", item: "The Prophetic Anointing", time: "2 hours ago" },
-  { type: "payment", user: "Sarah Mitchell", action: "upgraded to", item: "Diploma Program", time: "3 hours ago" },
+  { type: "enrollment", user: "Samuel Oyelaran", action: "enrolled in", item: "Biblical Studies Certificate", time: "5 min ago" },
+  { type: "completion", user: "David Mbeki", action: "completed", item: "Kingdom Economics", time: "1 hour ago" },
+  { type: "enrollment", user: "Hannah Kim", action: "enrolled in", item: "Spiritual Warfare", time: "2 hours ago" },
+  { type: "payment", user: "Rachel Martinez", action: "upgraded to", item: "Degree Program", time: "3 hours ago" },
   { type: "certificate", user: "Grace Nakamura", action: "earned certificate in", item: "Worship as Lifestyle", time: "5 hours ago" },
+  { type: "enrollment", user: "Joseph Thompson", action: "enrolled in", item: "Homiletics: Preaching with Power", time: "6 hours ago" },
+  { type: "completion", user: "Peter Anderson", action: "completed", item: "Church History", time: "8 hours ago" },
 ];
 
 export default function AdminDashboardPage() {

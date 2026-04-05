@@ -71,14 +71,14 @@ export default function TestimonialsPage() {
                 </p>
                 <div className="flex items-center justify-center gap-4">
                   <Image
-                    src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&h=150&fit=crop"
+                    src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=150&h=150&fit=crop"
                     alt="Featured testimonial"
                     width={64}
                     height={64}
                     className="rounded-full object-cover ring-4 ring-white/30"
                   />
                   <div className="text-left">
-                    <p className="font-semibold">Sarah Mitchell</p>
+                    <p className="font-semibold">Prophetess Maria Thompson</p>
                     <p className="text-sm text-violet-200">Diploma Graduate, 2024</p>
                   </div>
                 </div>
@@ -155,21 +155,21 @@ export default function TestimonialsPage() {
             {[
               {
                 title: "From Doubt to Destiny",
-                name: "Michael Thompson",
+                name: "Michael Okonkwo",
                 role: "Senior Pastor",
-                image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=300&fit=crop",
+                image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=400&h=300&fit=crop",
               },
               {
                 title: "Healing Through Intimacy",
                 name: "Grace Williams",
                 role: "Worship Leader",
-                image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=300&fit=crop",
+                image: "https://images.unsplash.com/photo-1508672019048-805c876b67e2?w=400&h=300&fit=crop",
               },
               {
                 title: "Called to Ministry",
-                name: "David Kim",
-                role: "Youth Pastor",
-                image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&h=300&fit=crop",
+                name: "David Mbeki",
+                role: "Church Planter",
+                image: "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=400&h=300&fit=crop",
               },
             ].map((video, i) => (
               <AnimatedSection key={i} delay={i * 0.1}>

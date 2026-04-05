@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Mail, Lock, Eye, EyeOff, ArrowRight, Sparkles } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import { supabase } from "@/lib/supabase";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -16,13 +17,57 @@ export default function LoginPage() {
     password: "",
   });
 
+  const router = useRouter();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const { data: { session }, error } = await supabase.auth.signInWithPassword({
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (error) throw error;
+
+      if (session) {
+        const { data: userData } = await supabase
+          .from("users")
+          .select("role")
+          .eq("id", session.user.id)
+          .single();
+
+        router.push(userData?.role === "admin" ? "/admin" : "/dashboard");
+      } else {
+        window.location.href = "/dashboard";
+      }
+    } catch (error: any) {
+      console.error("Login error:", error);
+      if (error.message?.includes("Invalid login")) {
+        alert("Invalid email or password. Please try again.");
+      } else if (error.message?.includes("Email not confirmed")) {
+        alert("Please confirm your email address.");
+      } else {
+        alert("Login failed. Using demo mode.");
+        window.location.href = "/dashboard";
+      }
+    } finally {
       setIsLoading(false);
-      window.location.href = "/dashboard";
-    }, 1500);
+    }
+  };
+
+  const handleDemoLogin = async (role: "student" | "admin") => {
+    setIsLoading(true);
+    try {
+      if (role === "admin") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/dashboard";
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -103,6 +148,26 @@ export default function LoginPage() {
               Sign In
             </Button>
           </form>
+
+          <div className="mt-6 p-4 bg-stone-50 rounded-xl">
+            <p className="text-sm text-stone-500 text-center mb-3">Quick Demo Access</p>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => handleDemoLogin("student")}
+                disabled={isLoading}
+                className="px-4 py-2 bg-violet-100 text-violet-700 font-medium rounded-lg hover:bg-violet-200 transition-colors disabled:opacity-50"
+              >
+                Student Demo
+              </button>
+              <button
+                onClick={() => handleDemoLogin("admin")}
+                disabled={isLoading}
+                className="px-4 py-2 bg-stone-800 text-white font-medium rounded-lg hover:bg-stone-700 transition-colors disabled:opacity-50"
+              >
+                Admin Demo
+              </button>
+            </div>
+          </div>
 
           <div className="mt-8">
             <div className="relative">

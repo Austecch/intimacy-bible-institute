@@ -42,7 +42,7 @@ const leadership = [
   {
     name: "Apostle James Richardson",
     role: "Founder & President",
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop",
     bio: "Doctor of Theology with 30+ years of ministry experience. Author of 12 books on spiritual formation.",
   },
   {
@@ -62,6 +62,18 @@ const leadership = [
     role: "Dean of Ministry Training",
     image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop",
     bio: "Medical doctor turned minister, specializing in healing ministry and deliverance.",
+  },
+  {
+    name: "Dr. Michael Roberts",
+    role: "Head of Biblical Studies",
+    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&h=400&fit=crop",
+    bio: "PhD in Biblical Studies with expertise in hermeneutics and scriptural interpretation.",
+  },
+  {
+    name: "Pastor Grace Williams",
+    role: "Worship Ministry Director",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
+    bio: "Award-winning worship leader with 20 years of experience in church music ministry.",
   },
 ];
 
