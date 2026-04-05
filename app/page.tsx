@@ -25,7 +25,7 @@ import Footer from "@/components/layout/Footer";
 import Button from "@/components/ui/Button";
 import { CourseCard } from "@/components/ui/CourseCard";
 import { SectionHeader, Badge } from "@/components/ui/Elements";
-import { testimonials } from "@/lib/data";
+import { testimonials, courses as coursesData } from "@/lib/data";
 import { supabase } from "@/lib/supabase";
 
 function AnimatedSection({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
@@ -65,12 +65,14 @@ export default function HomePage() {
         .select("*")
         .eq("featured", true)
         .limit(3);
-      if (data) setCourses(data);
+      if (data && data.length > 0) {
+        setCourses(data);
+      }
     }
     fetchCourses();
   }, []);
 
-  const featuredCourses = courses;
+  const featuredCourses = courses.length > 0 ? courses : coursesData.filter((c: any) => c.featured);
 
   return (
     <div className="min-h-screen">
