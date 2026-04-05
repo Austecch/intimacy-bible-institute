@@ -1,46 +1,54 @@
 import { NextResponse } from "next/server";
-import { courses } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get("id");
   const category = searchParams.get("category");
   const featured = searchParams.get("featured");
-  
-  let result = courses;
-  
+
+  let query = supabase.from("courses").select("*");
+
   if (id) {
-    const course = courses.find(c => c.id === id);
-    if (!course) {
-      return NextResponse.json({ error: "Course not found" }, { status: 404 });
+    const { data, error } = await query.eq("id", id).single();
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 404 });
     }
-    return NextResponse.json(course);
+    return NextResponse.json(data);
   }
-  
+
   if (category) {
-    result = result.filter(c => c.category.toLowerCase() === category.toLowerCase());
+    query = query.eq("category", category);
   }
-  
+
   if (featured === "true") {
-    result = result.filter(c => c.featured);
+    query = query.eq("featured", true);
   }
-  
-  return NextResponse.json(result);
+
+  const { data, error } = await query;
+
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
+
+  return NextResponse.json(data || []);
 }
 
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    
-    const newCourse = {
-      id: "course_" + Date.now(),
-      ...body,
-      enrolled: 0,
-      rating: 0,
-      modules: [],
-    };
-    
-    return NextResponse.json(newCourse, { status: 201 });
+
+    const { data, error } = await supabase
+      .from("courses")
+      .insert([body])
+      .select()
+      .single();
+
+    if (error) {
+      return NextResponse.json({ error: error.message }, { status: 400 });
+    }
+
+    return NextResponse.json(data, { status: 201 });
   } catch {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
   }
