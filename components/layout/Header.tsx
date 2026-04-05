@@ -65,30 +65,27 @@ export default function Header() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled 
-          ? "bg-white/90 dark:bg-stone-900/90 backdrop-blur-xl shadow-soft" 
-          : "bg-transparent"
+          ? "bg-white/95 backdrop-blur-md shadow-sm" 
+          : "bg-white"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="max-w-6xl mx-auto px-6">
+        <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-600 to-violet-700 flex items-center justify-center">
-              <span className="text-white font-bold text-lg">I</span>
+            <div className="w-8 h-8 rounded-md bg-stone-900 flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">IBI</span>
             </div>
-            <div>
-              <span className="font-semibold text-stone-900 dark:text-white tracking-tight">Intimacy Bible</span>
-              <span className="block text-xs text-stone-500 dark:text-stone-400">Institute</span>
-            </div>
+            <span className="font-medium text-stone-900 hidden sm:block">Intimacy Bible Institute</span>
           </Link>
 
-          <nav className="hidden lg:flex items-center gap-1">
+          <nav className="hidden lg:flex items-center gap-6">
             {navItems.map((item) => (
               <div key={item.label} className="relative">
                 {item.dropdown ? (
                   <button
                     onMouseEnter={() => setOpenDropdown(item.label)}
                     onMouseLeave={() => setOpenDropdown(null)}
-                    className="flex items-center gap-1 px-4 py-2 text-sm font-medium text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white transition-colors"
+                    className="flex items-center gap-1 text-sm font-medium text-stone-600 hover:text-stone-900 transition-colors"
                   >
                     {item.label}
                     <ChevronDown className="w-4 h-4" />
@@ -96,10 +93,10 @@ export default function Header() {
                 ) : (
                   <Link
                     href={item.href!}
-                    className={`px-4 py-2 text-sm font-medium transition-colors ${
+                    className={`text-sm font-medium transition-colors ${
                       pathname === item.href
-                        ? "text-violet-600"
-                        : "text-stone-600 dark:text-stone-300 hover:text-stone-900 dark:hover:text-white"
+                        ? "text-stone-900"
+                        : "text-stone-600 hover:text-stone-900"
                     }`}
                   >
                     {item.label}
@@ -108,15 +105,15 @@ export default function Header() {
 
                 {item.dropdown && openDropdown === item.label && (
                   <motion.div
-                    initial={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 5 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="absolute top-full left-0 mt-2 w-56 bg-white dark:bg-stone-800 rounded-xl shadow-lifted border border-stone-100 dark:border-stone-700 p-2"
+                    className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-stone-100 p-2"
                   >
                     {item.dropdown.map((subItem) => (
                       <Link
                         key={subItem.label}
                         href={subItem.href}
-                        className="block px-4 py-2 text-sm text-stone-600 dark:text-stone-300 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg transition-colors"
+                        className="block px-3 py-2 text-sm text-stone-600 hover:text-stone-900 hover:bg-stone-50 rounded-md transition-colors"
                       >
                         {subItem.label}
                       </Link>
@@ -128,23 +125,21 @@ export default function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3">
-            <ThemeToggle />
-            <Link href="/login">
-              <Button variant="ghost">Sign In</Button>
+            <Link href="/login" className="text-sm font-medium text-stone-600 hover:text-stone-900">
+              Sign In
             </Link>
             <Link href="/admissions">
-              <Button variant="primary">Apply Now</Button>
+              <Button size="sm">Apply Now</Button>
             </Link>
           </div>
 
           <div className="flex lg:hidden items-center gap-2">
-            <ThemeToggle />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors"
+              className="p-2 rounded-lg hover:bg-stone-50 transition-colors"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
@@ -156,9 +151,9 @@ export default function Header() {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden bg-white dark:bg-stone-900 border-t border-stone-100 dark:border-stone-800"
+            className="lg:hidden bg-white border-t border-stone-100"
           >
-            <nav className="max-w-7xl mx-auto px-4 py-6 space-y-1">
+            <nav className="max-w-6xl mx-auto px-6 py-4 space-y-1">
               {navItems.map((item) => (
                 <div key={item.label}>
                   {item.dropdown ? (
@@ -167,11 +162,11 @@ export default function Header() {
                         onClick={() =>
                           setOpenDropdown(openDropdown === item.label ? null : item.label)
                         }
-                        className="flex items-center justify-between w-full px-4 py-3 text-left text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800 rounded-xl"
+                        className="flex items-center justify-between w-full px-3 py-2 text-left text-stone-700 hover:bg-stone-50 rounded-lg"
                       >
-                        <span className="font-medium">{item.label}</span>
+                        <span className="font-medium text-sm">{item.label}</span>
                         <ChevronDown
-                          className={`w-5 h-5 transition-transform ${
+                          className={`w-4 h-4 transition-transform ${
                             openDropdown === item.label ? "rotate-180" : ""
                           }`}
                         />
@@ -186,7 +181,7 @@ export default function Header() {
                             <Link
                               key={subItem.label}
                               href={subItem.href}
-                              className="block px-4 py-2 text-sm text-stone-500 dark:text-stone-400 hover:text-violet-600 dark:hover:text-violet-400 hover:bg-violet-50 dark:hover:bg-violet-900/20 rounded-lg"
+                              className="block px-3 py-2 text-sm text-stone-500 hover:text-stone-900 hover:bg-stone-50 rounded-lg"
                             >
                               {subItem.label}
                             </Link>
@@ -197,10 +192,10 @@ export default function Header() {
                   ) : (
                     <Link
                       href={item.href!}
-                      className={`block px-4 py-3 rounded-xl ${
+                      className={`block px-3 py-2 rounded-lg text-sm ${
                         pathname === item.href
-                          ? "bg-violet-50 dark:bg-violet-900/20 text-violet-600 dark:text-violet-400 font-medium"
-                          : "text-stone-700 dark:text-stone-200 hover:bg-stone-50 dark:hover:bg-stone-800"
+                          ? "bg-stone-100 text-stone-900 font-medium"
+                          : "text-stone-700 hover:bg-stone-50"
                       }`}
                     >
                       {item.label}
@@ -208,16 +203,12 @@ export default function Header() {
                   )}
                 </div>
               ))}
-              <div className="pt-4 flex flex-col gap-2">
-                <Link href="/login">
-                  <Button variant="secondary" className="w-full">
-                    Sign In
-                  </Button>
+              <div className="pt-4 flex gap-2">
+                <Link href="/login" className="flex-1">
+                  <Button variant="secondary" size="sm" className="w-full">Sign In</Button>
                 </Link>
-                <Link href="/admissions">
-                  <Button variant="primary" className="w-full">
-                    Apply Now
-                  </Button>
+                <Link href="/admissions" className="flex-1">
+                  <Button size="sm" className="w-full">Apply Now</Button>
                 </Link>
               </div>
             </nav>

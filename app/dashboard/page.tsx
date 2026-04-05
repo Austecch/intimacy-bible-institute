@@ -177,7 +177,6 @@ export default function DashboardPage() {
               key={course.id} 
               course={course} 
               progress={course.id === continueLearning?.id ? progress : 35}
-              onClick={() => window.location.href = `/dashboard/courses/${course.id}`}
             />
           ))}
         </div>

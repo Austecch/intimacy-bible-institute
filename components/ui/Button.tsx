@@ -1,7 +1,6 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
 import { forwardRef, ReactNode } from "react";
 
 interface ButtonProps {
@@ -34,16 +33,15 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const variants = {
-      primary: "bg-violet-600 text-white hover:bg-violet-700 hover:shadow-glow",
-      secondary:
-        "bg-white text-violet-600 border border-violet-200 hover:border-violet-300 hover:bg-violet-50",
+      primary: "bg-stone-900 text-white hover:bg-stone-800",
+      secondary: "bg-white text-stone-900 border border-stone-200 hover:border-stone-300 hover:bg-stone-50",
       ghost: "text-stone-600 hover:text-stone-900 hover:bg-stone-100",
     };
 
     const sizes = {
-      sm: "px-4 py-2 text-sm",
-      md: "px-6 py-3",
-      lg: "px-8 py-4 text-lg",
+      sm: "px-4 py-2 text-sm rounded-md",
+      md: "px-5 py-2.5 text-sm rounded-md",
+      lg: "px-6 py-3 text-base rounded-lg",
     };
 
     const iconSizes = {
@@ -53,12 +51,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     return (
-      <motion.button
+      <button
         ref={ref}
-        whileHover={{ scale: disabled ? 1 : 1.02 }}
-        whileTap={{ scale: disabled ? 1 : 0.98 }}
         className={cn(
-          "inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-200",
+          "inline-flex items-center justify-center gap-2 font-medium rounded-md transition-colors",
           variants[variant],
           sizes[size],
           disabled && "opacity-50 cursor-not-allowed",
@@ -101,7 +97,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {!loading && Icon && iconPosition === "right" && (
           <Icon size={iconSizes[size]} />
         )}
-      </motion.button>
+      </button>
     );
   }
 );
