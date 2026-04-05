@@ -4,9 +4,10 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Mail, Lock, Eye, EyeOff, User, ArrowRight, Sparkles, CheckCircle2 } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, User, ArrowRight, CheckCircle2 } from "lucide-react";
 import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
+import { supabase } from "@/lib/supabase";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,10 +26,39 @@ export default function RegisterPage() {
       return;
     }
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: formData.email,
+        password: formData.password,
+        options: {
+          data: {
+            full_name: `${formData.firstName} ${formData.lastName}`,
+          },
+        },
+      });
+
+      if (error) throw error;
+
+      if (data.user) {
+        await supabase.from("users").insert({
+          id: data.user.id,
+          email: formData.email,
+          name: `${formData.firstName} ${formData.lastName}`,
+          role: "student",
+        });
+        window.location.href = "/dashboard";
+      }
+    } catch (error: any) {
+      console.error("Registration error:", error);
+      if (error.message?.includes("already registered")) {
+        alert("This email is already registered. Please login instead.");
+      } else {
+        alert("Registration failed. Please try again.");
+      }
+    } finally {
       setIsLoading(false);
-      window.location.href = "/dashboard";
-    }, 1500);
+    }
   };
 
   const passwordRequirements = [
@@ -47,13 +77,10 @@ export default function RegisterPage() {
           transition={{ duration: 0.5 }}
           className="max-w-md text-center text-white"
         >
-          <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center mx-auto mb-8">
-            <Sparkles className="w-8 h-8" />
-          </div>
-          <h2 className="text-3xl font-semibold mb-6">
+          <h2 className="text-2xl font-semibold mb-6">
             "But grow in the grace and knowledge of our Lord and Savior Jesus Christ."
           </h2>
-          <p className="text-violet-200 text-lg">— 2 Peter 3:18</p>
+          <p className="text-stone-300 text-sm">— 2 Peter 3:18</p>
           <div className="mt-12 space-y-4 text-left">
             <div className="flex items-start gap-3">
               <CheckCircle2 className="w-5 h-5 text-violet-300 flex-shrink-0 mt-0.5" />
