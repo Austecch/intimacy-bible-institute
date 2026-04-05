@@ -4,8 +4,24 @@ import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Play, Clock, Users, Star, CheckCircle2, FileText, Headphones, BookOpen } from "lucide-react";
-import { Course } from "@/lib/data";
 import { ProgressBar } from "./Card";
+
+interface Course {
+  id: string;
+  title: string;
+  description?: string;
+  instructor: string;
+  instructor_image?: string;
+  instructorImage?: string;
+  thumbnail: string;
+  duration: string;
+  enrolled: number;
+  rating: number;
+  category?: string;
+  price?: number;
+  featured?: boolean;
+  level?: string;
+}
 
 interface CourseCardProps {
   course: Course;
@@ -67,7 +83,7 @@ export function CourseCard({ course, progress, onClick, variant = "default" }: C
         <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
         <div className="absolute top-4 left-4 flex gap-2">
           <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-xs font-medium text-violet-600 rounded-full">
-            {course.level}
+            {course.level || course.category}
           </span>
         </div>
         <div className="absolute bottom-4 left-4 right-4">
@@ -81,9 +97,9 @@ export function CourseCard({ course, progress, onClick, variant = "default" }: C
         </h3>
 
         <div className="flex items-center gap-3 mt-3">
-          <div className="w-8 h-8 rounded-full overflow-hidden relative">
+          <div className="w-8 h-8 rounded-full overflow-hidden relative bg-stone-200">
             <Image
-              src={course.instructorImage}
+              src={course.instructorImage || course.instructor_image || "/placeholder-avatar.jpg"}
               alt={course.instructor}
               fill
               className="object-cover"

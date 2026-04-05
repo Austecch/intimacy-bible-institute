@@ -1,7 +1,15 @@
--- Run this in Supabase SQL Editor to create tables
+-- Drop existing tables if they exist (run this first to reset)
+DROP TABLE IF EXISTS quiz_attempts CASCADE;
+DROP TABLE IF EXISTS quizzes CASCADE;
+DROP TABLE IF EXISTS lesson_progress CASCADE;
+DROP TABLE IF EXISTS enrollments CASCADE;
+DROP TABLE IF EXISTS lessons CASCADE;
+DROP TABLE IF EXISTS modules CASCADE;
+DROP TABLE IF EXISTS courses CASCADE;
+DROP TABLE IF EXISTS app_users CASCADE;
 
--- Users table
-CREATE TABLE users (
+-- Users table (renamed to avoid conflict with auth.users)
+CREATE TABLE app_users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   email TEXT UNIQUE NOT NULL,
   name TEXT NOT NULL,
@@ -49,7 +57,7 @@ CREATE TABLE lessons (
 -- Enrollments table
 CREATE TABLE enrollments (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES app_users(id) ON DELETE CASCADE,
   course_id UUID REFERENCES courses(id) ON DELETE CASCADE,
   progress INTEGER DEFAULT 0,
   enrolled_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
@@ -60,7 +68,7 @@ CREATE TABLE enrollments (
 -- Lesson Progress table
 CREATE TABLE lesson_progress (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES app_users(id) ON DELETE CASCADE,
   lesson_id UUID REFERENCES lessons(id) ON DELETE CASCADE,
   completed BOOLEAN DEFAULT false,
   completed_at TIMESTAMP WITH TIME ZONE,
@@ -80,7 +88,7 @@ CREATE TABLE quizzes (
 -- Quiz Attempts table
 CREATE TABLE quiz_attempts (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES app_users(id) ON DELETE CASCADE,
   quiz_id UUID REFERENCES quizzes(id) ON DELETE CASCADE,
   score INTEGER DEFAULT 0,
   passed BOOLEAN DEFAULT false,
@@ -88,7 +96,7 @@ CREATE TABLE quiz_attempts (
 );
 
 -- Enable Row Level Security
-ALTER TABLE users ENABLE ROW LEVEL SECURITY;
+ALTER TABLE app_users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE courses ENABLE ROW LEVEL SECURITY;
 ALTER TABLE modules ENABLE ROW LEVEL SECURITY;
 ALTER TABLE lessons ENABLE ROW LEVEL SECURITY;
@@ -97,8 +105,8 @@ ALTER TABLE lesson_progress ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quizzes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE quiz_attempts ENABLE ROW LEVEL SECURITY;
 
--- Create policies (allow read access to all, write only for authenticated users)
-CREATE POLICY "Allow read access" ON users FOR SELECT USING (true);
+-- Create policies
+CREATE POLICY "Allow read access" ON app_users FOR SELECT USING (true);
 CREATE POLICY "Allow read access" ON courses FOR SELECT USING (true);
 CREATE POLICY "Allow read access" ON modules FOR SELECT USING (true);
 CREATE POLICY "Allow read access" ON lessons FOR SELECT USING (true);
@@ -108,7 +116,7 @@ CREATE POLICY "Allow read access" ON quizzes FOR SELECT USING (true);
 CREATE POLICY "Allow read access" ON quiz_attempts FOR SELECT USING (true);
 
 -- Insert sample data
-INSERT INTO users (email, name, role) VALUES
+INSERT INTO app_users (email, name, role) VALUES
   ('admin@ibi.edu', 'Admin User', 'admin'),
   ('sarah.mitchell@email.com', 'Sarah Mitchell', 'student'),
   ('john.doe@email.com', 'John Doe', 'student');

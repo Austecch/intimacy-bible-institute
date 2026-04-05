@@ -25,7 +25,8 @@ import Footer from "@/components/layout/Footer";
 import Button from "@/components/ui/Button";
 import { CourseCard } from "@/components/ui/CourseCard";
 import { SectionHeader, Badge } from "@/components/ui/Elements";
-import { courses, testimonials } from "@/lib/data";
+import { testimonials } from "@/lib/data";
+import { supabase } from "@/lib/supabase";
 
 function AnimatedSection({ children, className, delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef(null);
@@ -47,6 +48,7 @@ function AnimatedSection({ children, className, delay = 0 }: { children: React.R
 export default function HomePage() {
   const [activeTestimonial, setActiveTestimonial] = useState(0);
   const [isHeroLoaded, setIsHeroLoaded] = useState(false);
+  const [courses, setCourses] = useState<any[]>([]);
 
   useEffect(() => {
     setIsHeroLoaded(true);
@@ -56,7 +58,19 @@ export default function HomePage() {
     return () => clearInterval(interval);
   }, []);
 
-  const featuredCourses = courses.filter((c) => c.featured).slice(0, 3);
+  useEffect(() => {
+    async function fetchCourses() {
+      const { data } = await supabase
+        .from("courses")
+        .select("*")
+        .eq("featured", true)
+        .limit(3);
+      if (data) setCourses(data);
+    }
+    fetchCourses();
+  }, []);
+
+  const featuredCourses = courses;
 
   return (
     <div className="min-h-screen">
